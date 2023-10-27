@@ -10,6 +10,9 @@ type LinkedList struct {
 }
 
 func New(size int) *LinkedList {
+	if size <= 0 {
+		panic("Size must be greater than 0")
+	}
 	head := node{}
 	currentNode := &head
 	for i := 1; i < size; i++ {
@@ -30,12 +33,18 @@ func (l *LinkedList) Size() int {
 	return size
 }
 
-func (l *LinkedList) At(pos int) int {
+func (l *LinkedList) At(pos int) (int, error) {
+	if pos < 0 {
+		panic("Index out of range")
+	}
 	currentNode := l.head
 	for i := 0; i < pos; i++ {
+		if currentNode.next == nil {
+			panic("Index out of range")
+		}
 		currentNode = currentNode.next
 	}
-	return currentNode.val
+	return currentNode.val, nil
 }
 
 func (l *LinkedList) Add(val int) {
@@ -50,8 +59,14 @@ func (l *LinkedList) Add(val int) {
 }
 
 func (l *LinkedList) UpdateAt(pos int, val int) {
+	if pos < 0 {
+		panic("Index out of range")
+	}
 	currentNode := l.head
 	for i := 0; i < pos; i++ {
+		if currentNode.next == nil {
+			panic("Index out of range")
+		}
 		currentNode = currentNode.next
 	}
 	currentNode.val = val
@@ -66,14 +81,23 @@ func (l *LinkedList) Pop() {
 }
 
 func (l *LinkedList) DeleteFrom(pos int) {
+	if pos < 0 {
+		panic("Index out of range")
+	}
 	currentNode := l.head
 	for i := 0; i < pos-1; i++ {
+		if currentNode.next == nil {
+			panic("Index out of range")
+		}
 		currentNode = currentNode.next
 	}
 	currentNode.next = currentNode.next.next
 }
 
 func NewFromSlice(s []int) *LinkedList {
+	if len(s) == 0 {
+		panic("Size of slice must be greater than 0")
+	}
 	head := node{val: s[0], next: nil}
 	currentNode := &head
 	for i := 1; i < len(s); i++ {
