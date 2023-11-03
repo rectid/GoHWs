@@ -1,4 +1,4 @@
-package main
+package LinkedList
 
 type node struct {
 	val  int
